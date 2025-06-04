@@ -19,4 +19,4 @@ I'm an educator turned aspiring software developer. Currently enrolled in the IB
 
 ## 📬 Contact
 📧 AlannaTaylor@live.com  
-📱 772-626-4475# About_Me
+📱 772-626-4475
