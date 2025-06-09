@@ -1,5 +1,4 @@
 // === RECOMMENDATION SECTION ===
-console.log("Script loaded and running!");
 
 function addRecommendation() {
   let recommendation = document.getElementById("new_recommendation");
