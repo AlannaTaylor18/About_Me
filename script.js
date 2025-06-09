@@ -38,18 +38,6 @@ function showPopup(bool) {
   }
 }
 
-// Handle Enter key for recommendations
-document.addEventListener("DOMContentLoaded", () => {
-  document
-    .getElementById("new_recommendation")
-    .addEventListener("keydown", function (event) {
-      if (event.key === "Enter" && !event.shiftKey) {
-        event.preventDefault();
-        addRecommendation();
-      }
-    });
-});
-
 // === CHATBOT SECTION ===
 function sendMessage() {
   const input = document.getElementById("chat-input");
@@ -75,8 +63,20 @@ function sendMessage() {
   }
 }
 
-// Handle Send button
+// === INIT EVENT LISTENERS ===
 document.addEventListener("DOMContentLoaded", () => {
+  // Recommendation: Handle Enter key
+  const newRecommendation = document.getElementById("new_recommendation");
+  if (newRecommendation) {
+    newRecommendation.addEventListener("keydown", function (event) {
+      if (event.key === "Enter" && !event.shiftKey) {
+        event.preventDefault();
+        addRecommendation();
+      }
+    });
+  }
+
+  // Chatbot: Handle Send button and Enter key
   const sendButton = document.getElementById("chat-send");
   const inputField = document.getElementById("chat-input");
 
