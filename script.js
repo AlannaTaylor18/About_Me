@@ -1,19 +1,19 @@
 // === RECOMMENDATION SECTION ===
 function addRecommendation() {
-  let recommendation = document.getElementById("new_recommendation");
+  const recommendation = document.getElementById("new_recommendation");
 
-  if (recommendation.value != null && recommendation.value.trim() != "") {
+  if (recommendation.value && recommendation.value.trim() !== "") {
     console.log("New recommendation added");
     showPopup(true);
 
-    let element = document.createElement("div");
+    const element = document.createElement("div");
     element.classList.add("recommendation");
 
     const openQuote = document.createElement("span");
     openQuote.textContent = "“";
     element.appendChild(openQuote);
 
-    let textNode = document.createTextNode(recommendation.value);
+    const textNode = document.createTextNode(recommendation.value);
     element.appendChild(textNode);
 
     const closeQuote = document.createElement("span");
@@ -25,18 +25,16 @@ function addRecommendation() {
   }
 }
 
-function showPopup(bool) {
+function showPopup(show) {
   const popup = document.getElementById("popup");
-  if (bool) {
-    popup.style.visibility = "visible";
+  popup.style.visibility = show ? "visible" : "hidden";
+  if (show) {
     setTimeout(() => (popup.style.visibility = "hidden"), 2000);
-  } else {
-    popup.style.visibility = "hidden";
   }
 }
 
 // === CHATBOT SECTION ===
-function sendMessage() {
+async function sendMessage() {
   const input = document.getElementById("chat-input");
   const message = input.value.trim();
 
@@ -49,20 +47,47 @@ function sendMessage() {
     userMsg.textContent = message;
     chatMessages.appendChild(userMsg);
 
-    // Simulated bot response
-    const botMsg = document.createElement("div");
-    botMsg.className = "bot-message";
-    botMsg.textContent = `Thanks for your message! (You said: ${message})`;
-    chatMessages.appendChild(botMsg);
-
     input.value = "";
     chatMessages.scrollTop = chatMessages.scrollHeight;
+
+    try {
+      // ✅ Replace with your real deployed backend URL
+      const response = await fetch("https://resume-chatbot-alanna.herokuapp.com/api/chat", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "HRKU-AAAJB02PkglwW9bmx4OzJtHBstGFt_TVup8s9DpVnCsg_____waHx_synQFI"
+        },
+        body: JSON.stringify({ message: message }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const data = await response.json();
+
+      // Add bot response
+      const botMsg = document.createElement("div");
+      botMsg.className = "bot-message";
+      botMsg.textContent = data.reply || "Sorry, I didn't get that.";
+      chatMessages.appendChild(botMsg);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+
+    } catch (error) {
+      console.error("Error calling backend:", error);
+      const botMsg = document.createElement("div");
+      botMsg.className = "bot-message";
+      botMsg.textContent = "Error contacting the server. Please try again later.";
+      chatMessages.appendChild(botMsg);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
   }
 }
 
 // === INIT EVENT LISTENERS ===
 document.addEventListener("DOMContentLoaded", () => {
-  // Recommendation: Handle Enter key (if applicable)
+  // Recommendation input Enter key
   const newRecommendation = document.getElementById("new_recommendation");
   if (newRecommendation) {
     newRecommendation.addEventListener("keydown", (event) => {
