@@ -1,3 +1,6 @@
+gunicorn
+langchain
+chromadb
 aiofiles==23.2.1
 annotated-types==0.7.0
 anyio==4.9.0
