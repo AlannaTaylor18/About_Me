@@ -1,4 +1,3 @@
-/* General styles */
 body {
   font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Lucida Sans", Arial, sans-serif;
   margin: 0;
@@ -38,7 +37,8 @@ a:visited {
   text-decoration: none;
   color: #333;
   font-weight: bold;
-}
+}/* General styles */
+
 
 /* Contact Info and Social Icons */
 .nav-right {
@@ -121,6 +121,369 @@ a:visited {
   align-items: center;
   gap: 2rem;
   flex-wrap: wrap;
+}
+
+.contact_info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.contact_info img {
+  width: 25px;
+  height: 25px;
+}
+
+.contact-row {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.contact_info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.contact_info img {
+  width: 25px;
+  height: 25px;
+}
+
+h1 {
+  font-size: 2.2rem;
+  margin-bottom: 1rem;
+}
+
+/* Links - remove visited purple */
+.link-style {
+  font-style: italic;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+}
+/* Titles */
+h2 {
+  font-size: 50px;
+  color: #000000;
+  margin: 40px 0 0 60px;
+  text-align: center;
+  float: left;
+}
+
+.introduction {
+  font-size: 30px;
+  margin: 30px 0 20px 0;
+  text-align: center;
+  float: left;
+  animation-duration: 5s;
+  position: relative;
+}
+
+/* Text container inside About Me */
+.about-text {
+  margin: 0 auto;
+  width: 80%; /* keeps the text centered and pushed in */
+}
+
+/* Heading */
+#about-me h1 {
+  font-size: 50px;              /* Slightly smaller */
+  color: #9dd3ff;
+  margin-bottom: 1rem;
+  margin-top: 0;                /* Remove extra top margin */
+}
+.about-wrapper {
+  display: flex;
+  flex-direction: column; /* THIS stacks the image and text vertically */
+  align-items: center;     /* Center horizontally */
+  text-align: center;      /* Center text */
+  padding: 20px;
+}
+
+.about-img {
+  max-width: 300px;
+  height: auto;
+  margin-bottom: 20px;
+}
+/* Paragraphs */
+.about-text {
+  width: 100%;
+}
+
+#about-me p {
+  font-size: 18px;
+  color: rgb(80, 80, 80);
+  line-height: 1.5;
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+/* Skills Section */
+.all_skills {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.skill {
+  border: 1px solid gray;
+  border-radius: 6px;
+  text-align: center;
+  margin: 50px;
+  padding: 10px;
+  width: 2in;
+  font-size: 20px;
+  box-shadow: 0 3px 10px gray;
+}
+
+.skill img {
+  height: 35px;
+  vertical-align: middle;
+}
+
+.skills h6 {
+  font-size: 20px;
+  margin: 8px 0 5px 0;
+  font-weight: bold;
+}
+
+.skills p {
+  font-size: 15px;
+  color: gray;
+  margin: 5px 0;
+}
+
+.flex_center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Projects Section */
+.projects-container {
+  margin-top: 30px;
+  margin-left: 60px;
+}
+
+.projects-container hr {
+  border: 1px solid lightgray;
+  width: 75%;
+  margin-left: 5cm;
+}
+
+.project-card {
+  margin: 0 15px 15px 30px;
+  padding-bottom: 5px;
+}
+
+.project-card h3 {
+  font-size: 25px;
+  margin-left: 30px;
+}
+
+.project-card li {
+  font-size: 20px;
+  margin-left: 30px;
+}
+
+/* Recommendations Section */
+.recommendation {
+  font-style: italic;
+  text-align: left;
+  width: 21.875rem;
+  padding: 20px 1rem;
+  background-color: #fff;
+  border-radius: 11px;
+  box-shadow: 0 3px 10px var(--primary-shadow, rgba(0, 0, 0, 0.1));
+  margin: 10px;
+  border: 1px solid gray;
+  font-size: 18px;
+  min-height: 150px;          /* ensures minimum box size */
+  /* Remove fixed height */
+  overflow-wrap: break-word;  /* wrap long words */
+  word-break: break-word;     /* wrap long words */
+  white-space: normal;        /* allow wrapping */
+}
+
+/* Form Pop-up */
+.popup {
+  width: 400px;
+  background-color: #9dd3ff;
+  border-radius: 3mm;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  position: fixed;
+  visibility: hidden; /* Show with JS */
+  z-index: 1000;
+  box-sizing: border-box;
+  padding: 20px;
+}
+
+.popup img {
+  padding-top: 20px;
+}
+
+.popup button {
+  background-color: #fff;
+  border: 1px solid #9dd3ff;
+  color: #9dd3ff;
+  border-radius: 6px;
+  padding: 10px;
+  width: 2in;
+  font-size: 20px;
+  margin: 50px 0 50px 25%;
+  cursor: pointer;
+  text-align: center;
+  display: block;
+}
+
+.popup button:hover {
+  border-width: 2px;
+  font-weight: bolder;
+}
+
+/* Recommendation Form */
+input, textarea {
+  font-family: inherit;
+  margin: 10px 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+#recommend_btn {
+  display: none;
+}
+
+#contact {
+  display: none;
+}
+#popup {
+  display: none;
+}
+
+fieldset {
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  padding: 25px;
+  margin: 0 50px;
+  border: thin solid white;
+  width: 50%;
+  box-sizing: border-box;
+}
+
+/* Buttons */
+button {
+  background-color: ##9dd3ff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin: 50px auto;
+  display: block;
+  font-size: 20px;
+  width: auto;
+  min-width: 2in;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+button:hover {
+  background-color: #1abc9c;
+}
+
+/* Utility */
+.clearfix::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+/* Introduction Section (Centered Profile + Typing Text) */
+.intro-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;       /* centers all children horizontally */
+  justify-content: center;
+  text-align: center;
+  margin: 2rem auto;
+  padding: 2rem;
+  max-width: 800px;
+}
+
+.intro-section img {
+  width: 200px;              /* or whatever size fits */
+  border-radius: 50%;
+  margin-bottom: 1rem;
+}
+
+#typing-text {
+  font-size: 20px;
+  line-height: 1.6;
+  white-space: pre-wrap;     /* keeps line breaks */
+  padding: 1rem;
+  border-right: 2px solid black;
+  animation: blinkCursor 0.7s steps(1) infinite;
+  max-width: 750px;
+}
+
+/* Blinking Cursor Animation */
+@keyframes blinkCursor {
+  from { border-right-color: black; }
+  to { border-right-color: transparent; }
+}
+.contact-info {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+  align-items: center;
+  margin: 2rem 0;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.contact-item img {
+  width: 30px;
+  height: 30px;
+}
+
+.about-container {
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+.about-wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.about-img {
+  max-width: 200px;
+  border-radius: 10px;
+}
+
+.about-text {
+  flex: 1;
+}
+
+#contact fieldset {
+  display: none;
+}
 }
 
 .contact_info {
