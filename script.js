@@ -1,5 +1,4 @@
 // === RECOMMENDATION SECTION ===
-
 function addRecommendation() {
   let recommendation = document.getElementById("new_recommendation");
 
@@ -10,16 +9,13 @@ function addRecommendation() {
     let element = document.createElement("div");
     element.classList.add("recommendation");
 
-    // Add opening quote
     const openQuote = document.createElement("span");
     openQuote.textContent = "“";
     element.appendChild(openQuote);
 
-    // Add text safely
     let textNode = document.createTextNode(recommendation.value);
     element.appendChild(textNode);
 
-    // Add closing quote
     const closeQuote = document.createElement("span");
     closeQuote.textContent = "”";
     element.appendChild(closeQuote);
@@ -56,20 +52,20 @@ function sendMessage() {
     // Simulated bot response
     const botMsg = document.createElement("div");
     botMsg.className = "bot-message";
-    botMsg.textContent = "Thanks for your message! (You said: " + message + ")";
+    botMsg.textContent = `Thanks for your message! (You said: ${message})`;
     chatMessages.appendChild(botMsg);
 
     input.value = "";
-    chatMessages.scrollTop = chatMessages.scrollHeight; // Scroll to bottom
+    chatMessages.scrollTop = chatMessages.scrollHeight;
   }
 }
 
 // === INIT EVENT LISTENERS ===
 document.addEventListener("DOMContentLoaded", () => {
-  // Recommendation: Handle Enter key
+  // Recommendation: Handle Enter key (if applicable)
   const newRecommendation = document.getElementById("new_recommendation");
   if (newRecommendation) {
-    newRecommendation.addEventListener("keydown", function (event) {
+    newRecommendation.addEventListener("keydown", (event) => {
       if (event.key === "Enter" && !event.shiftKey) {
         event.preventDefault();
         addRecommendation();
@@ -83,7 +79,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (sendButton && inputField) {
     sendButton.addEventListener("click", sendMessage);
-    inputField.addEventListener("keypress", function (e) {
+    inputField.addEventListener("keydown", (e) => {
       if (e.key === "Enter") {
         e.preventDefault();
         sendMessage();
