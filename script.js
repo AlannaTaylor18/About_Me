@@ -6,10 +6,19 @@ function addRecommendation() {
     showPopup(true);
 
     let element = document.createElement("div");
-    element.setAttribute("class", "recommendation");
-    element.innerHTML = "<span>&#8220;</span>" + recommendation.value + "<span>&#8221;</span>";
+    element.classList.add("recommendation");
 
-    document.getElementById("all_recommendations").appendChild(element); 
+    // Add opening quote span
+    element.appendChild(document.createElement("span")).textContent = "“";
+
+    // Add the recommendation text safely as a text node
+    let textNode = document.createTextNode(recommendation.value);
+    element.appendChild(textNode);
+
+    // Add closing quote span
+    element.appendChild(document.createElement("span")).textContent = "”";
+
+    document.getElementById("all_recommendations").appendChild(element);
     recommendation.value = "";
   }
 }
