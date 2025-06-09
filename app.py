@@ -1,3 +1,7 @@
+import openai
+import os
+openai.api_key = os.getenv("HRKU-AAAJB02PkglwW9bmx4OzJtHBstGFt_TVup8s9DpVnCsg_____waHx_synQFI")
+
 from flask import Flask, render_template, request, jsonify
 import requests
 import PyPDF2
@@ -38,4 +42,3 @@ def chat():
 if __name__ == "__main__":
     print("Starting Flask app...")  # Added print statement
     app.run(debug=True)
-
