@@ -1,0 +1,3 @@
+[submodule "chatbot/About_Me"]
+	path = chatbot/About_Me
+	url = https://github.com/AlannaTaylor18/About_Me.git
