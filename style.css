@@ -47,16 +47,6 @@ a:visited {
   gap: 1rem;
 }
 
-.contact_info {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.contact_info img {
-  width: 25px;
-  height: 25px;
-}
 /* Center menu specific tweak */
 .nav-center {
   gap: 1.5rem;
@@ -123,23 +113,6 @@ a:visited {
   flex-wrap: wrap;
 }
 
-.contact_info {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.contact_info img {
-  width: 25px;
-  height: 25px;
-}
-
-.contact-row {
-  display: flex;
-  align-items: center;
-  gap: 2rem;
-  flex-wrap: wrap;
-}
 
 .contact_info {
   display: flex;
@@ -380,7 +353,7 @@ fieldset {
 
 /* Buttons */
 button {
-  background-color: ##9dd3ff;
+  background-color: #9dd3ff;
   color: white;
   padding: 10px 20px;
   border: none;
@@ -484,18 +457,7 @@ button:hover {
 #contact fieldset {
   display: none;
 }
-}
 
-.contact_info {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.contact_info img {
-  width: 25px;
-  height: 25px;
-}
 
 .contact-row {
   display: flex;
