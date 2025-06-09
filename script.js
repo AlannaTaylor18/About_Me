@@ -32,3 +32,12 @@ function showPopup(bool) {
     popup.style.visibility = 'hidden';
   }
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('new_recommendation').addEventListener('keydown', function(event) {
+    if (event.key === 'Enter' && !event.shiftKey) {
+      event.preventDefault();
+      addRecommendation();
+    }
+  });
+});
