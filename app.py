@@ -1,44 +1,37 @@
-import openai
-import os
-openai.api_key = os.getenv("HRKU-AAAJB02PkglwW9bmx4OzJtHBstGFt_TVup8s9DpVnCsg_____waHx_synQFI")
-
-from flask import Flask, render_template, request, jsonify
-import requests
-import PyPDF2
-from io import BytesIO
-
-app = Flask(__name__)
-
-RESUME_URL = "https://github.com/AlannaTaylor18/About_Me/raw/main/files/RESUME_Taylor%20Alanna%202025_Tech.pdf"
-
-def extract_resume_text(url):
-    response = requests.get(url)
-    pdf_file = BytesIO(response.content)
-    reader = PyPDF2.PdfReader(pdf_file)
-    text = ''
-    for page in reader.pages:
-        text += page.extract_text()
-    return text
-
-resume_text = extract_resume_text(RESUME_URL)
-
-@app.route("/")
-def index():
-    return render_template("index.html")
-
-@app.route("/chat", methods=["POST"])
+@app.route('/chat', methods=['POST'])
 def chat():
-    user_input = request.json["message"]
+    user_message = request.json['message']
+    print("User message received:", user_message)
 
-    if "skills" in user_input.lower():
-        answer = "Here are some key skills from my resume: " + ", ".join(
-            [word for word in resume_text.split() if word.istitle()][:10]
-        )
-    else:
-        answer = "Let me review your question and get back to you."
+    if not user_message:
+        return jsonify({'response': 'No message received.'})
 
-    return jsonify({"reply": answer})
+    try:
+        # Load PDF content
+        loader = PyPDFLoader("Resume_A_Taylor.pdf")
+        documents = loader.load()
+        print("Loaded documents:", documents[:1])  # Show a preview of docs
 
-if __name__ == "__main__":
-    print("Starting Flask app...")  # Added print statement
-    app.run(debug=True)
+        # Split into chunks
+        text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
+        texts = text_splitter.split_documents(documents)
+        print("Split into", len(texts), "chunks")
+
+        # Embed and store
+        embeddings = OpenAIEmbeddings()
+        db = Chroma.from_documents(texts, embeddings)
+        print("Chroma vector store created")
+
+        # Set up retriever and QA chain
+        retriever = db.as_retriever()
+        qa = RetrievalQA.from_chain_type(llm=ChatOpenAI(model_name="gpt-3.5-turbo"), retriever=retriever)
+        print("QA chain ready")
+
+        # Run QA
+        response = qa.run(user_message)
+        print("Bot response:", response)
+
+        return jsonify({'response': response})
+    except Exception as e:
+        print("Error during processing:", str(e))
+        return jsonify({'response': 'Error processing your request.'})

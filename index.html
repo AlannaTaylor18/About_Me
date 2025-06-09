@@ -16,7 +16,7 @@
     <a class="topmenu" href="#skills">Skills</a>
     <a class="topmenu" href="#projects">Projects</a>
     <a class="topmenu" href="#recommendations">Recommendations</a>
-    <a class="topmenu" href="RESUME_Taylor Alanna 2025_Tech.pdf" target="_blank">Resume</a>
+    <a class="topmenu" href="RESUME_Taylor_Alanna_2025_Tech.pdf" target="_blank" rel="noopener noreferrer">Resume</a>
   </div>
 
   <div class="nav-right">
@@ -105,7 +105,7 @@
           </div> 
 
           <div class="skill">
-            <img src="https://media.istockphoto.com/id/2086515931/vector/lms-icon-learning-management-system-flat-vector.jpg?s=612x612&w=0&k=20&c=Yo_B8ISvlNnuRfjDaBwtrTQzvLskbzf-ig5B3SuzaMI="/>
+            <img src="https://media.istockphoto.com/id/2086515931/vector/lms-icon-learning-management-system-flat-vector.jpg?s=612x612&amp;w=0&amp;k=20&amp;c=Yo_B8ISvlNnuRfjDaBwtrTQzvLskbzf-ig5B3SuzaMI" />
             <h6>LMS</h6>
             <p>10 years experience</p>
           </div> 
@@ -189,9 +189,7 @@
           <input type="text" placeholder="Name (Optional)"> <br/>
           <textarea id="new_recommendation" cols="60" rows="10" placeholder="Message"></textarea>
           <div class="flex_center">
-            <button id="recommend_btn" onclick="addRecommendation()">Submit</button>
-                
-            
+            <button type="button" id="recommend_btn" onclick="addRecommendation()">Submit</button>
           </div>
         </fieldset>
       </div>
@@ -200,66 +198,28 @@
     <div class="iconbutton">
       <a href="#home">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="white" width="63px">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M15 11.25l-3-3m0 0l-3 3m3-3v7.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15 11.25l-3-3m0 0l-3 3m3-3v7.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
       </a>
     </div>
 
     <div class="popup flex_center" id="popup">
-        <img src="html_finalprojimages/checkmark--outline.svg"/>
-        <h3>Your recommendation has been submitted!</h3>
-        <button onclick="showPopup(false)">Ok</button>
-      </div>
-  <!-- Chatbot Container -->
+      <img src="html_finalprojimages/checkmark--outline.svg"/>
+      <h3>Your recommendation has been submitted!</h3>
+      <button onclick="showPopup(false)">Ok</button>
+    </div>
+
+    <!-- Chatbot Container -->
     <div id="chatbot-container" style="border:1px solid #ccc; padding:1rem; max-width:400px;">
       <h2>Resume Chatbot</h2>
       <p>Try asking about my skills!</p>
       <div id="chatbox" style="height:300px; overflow-y:auto; border:1px solid #999; padding:0.5rem; margin-bottom:0.5rem;"></div>
       <input type="text" id="user-input" placeholder="Type your message and hit Enter" style="width:100%; padding:0.5rem;" />
     </div>
-  </body>
-</html>
 
-
-> <br/>
-          <textarea id="new_recommendation" cols="500" rows="10" placeholder="Message"></textarea>
-          <div class="flex_center">
-            <button id="recommend_btn" onclick="addRecommendation()">Submit</button>
-                
-            
-          </div>
-        </fieldset>
-      </div>
-    </section>
-
-    <div class="iconbutton">
-      <a href="#home">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="white" width="63px">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M15 11.25l-3-3m0 0l-3 3m3-3v7.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
-      </a>
-    </div>
-
-    <div class="popup flex_center" id="popup">
-        <img src="html_finalprojimages/checkmark--outline.svg"/>
-        <h3>Your recommendation has been submitted!</h3>
-        <button onclick="showPopup(false)">Ok</button>
-      </div>
-      <!-- Chatbot Section -->
-<section id="chatbot" style="margin: 40px; padding: 20px; border: 2px solid #ccc; border-radius: 8px;">
-  <h2>Chatbot</h2>
-  <div id="chatbox" style="height: 300px; overflow-y: auto; border: 1px solid #ddd; padding: 10px; background: #f9f9f9; margin-bottom: 10px;"></div>
-  <input
-    type="text"
-    id="user-input"
-    placeholder="Type your message here and press Enter"
-    style="width: 100%; padding: 10px; font-size: 16px;"
-    autocomplete="off"
-  />
-</section>
-24b63d9 (Revert index.html to version from 03b3dfc)
-  </body>
-</html>
-<footer style="text-align:center; padding:1rem; background:#f5f5f5;">
+    <footer style="text-align:center; padding:1rem; background:#f5f5f5;">
   <p>&copy; 2025 Alanna Taylor | Built with 💻 by Alanna</p>
 </footer>
+
+  </body>
+</html>
