@@ -3,10 +3,10 @@ import fitz  # PyMuPDF
 
 def extract_resume_text(pdf_url):
     response = requests.get(pdf_url)
-    with open("resume.pdf", "wb") as f:
+    with open("files/RESUME_Taylor Alanna 2025_Tech.pdf", "wb") as f:
         f.write(response.content)
 
-    doc = fitz.open("resume.pdf")
+    doc = fitz.open("files/RESUME_Taylor Alanna 2025_Tech.pdf")
     text = ""
     for page in doc:
         text += page.get_text()
