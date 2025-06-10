@@ -240,17 +240,17 @@ h2 {
 .projects-container {
   margin-top: 30px;
   margin-left: 60px;
-}
-
-.projects-container hr {
-  border: 1px solid lightgray;
-  width: 75%;
-  margin-left: 5cm;
+  display: flex;
+  flex-direction: column; /* Ensure projects stack vertically */
+  gap: 20px; /* Adds space between project cards */
 }
 
 .project-card {
   margin: 0 15px 15px 30px;
-  padding-bottom: 5px;
+  padding: 15px; /* Ensures consistent spacing */
+  border: 1px solid #ddd; /* Adds a subtle border for distinction */
+  border-radius: 8px; /* Softens the edges */
+  background-color: #fff; /* Ensures good contrast */
 }
 
 .project-card h3 {
@@ -261,6 +261,13 @@ h2 {
 .project-card li {
   font-size: 20px;
   margin-left: 30px;
+}
+
+.projects-container hr {
+  border: 1px solid lightgray;
+  width: 75%;
+  margin-left: 5cm;
+  margin-top: 20px; /* Adds space above dividers */
 }
 
 #recommendations h2 {
@@ -610,22 +617,22 @@ h2 {
 }
 
 /* Recommendations Section */
+#recommendations h2 {
+  margin-bottom: 30px; /* Adds space between header and first recommendation */
+  text-align: center;
+}
+
+.all_recommendations {
+  margin-top: 20px; /* Pushes recommendations down */
+  display: flex;
+  flex-direction: column; /* Ensures proper stacking */
+  align-items: center;
+  gap: 20px; /* Creates spacing between individual recommendations */
+}
+
 .recommendation {
-  font-style: italic;
-  text-align: left;
-  width: 21.875rem;
-  padding: 20px 1rem;
-  background-color: #fff;
-  border-radius: 11px;
-  box-shadow: 0 3px 10px var(--primary-shadow, rgba(0, 0, 0, 0.1));
-  margin: 10px;
-  border: 1px solid gray;
-  font-size: 18px;
-  min-height: 150px;          /* ensures minimum box size */
-  /* Remove fixed height */
-  overflow-wrap: break-word;  /* wrap long words */
-  word-break: break-word;     /* wrap long words */
-  white-space: normal;        /* allow wrapping */
+  padding: 15px;
+  border-bottom: 1px solid #ccc; /* Adds separation between recommendations */
 }
 
 /* Form Pop-up */
