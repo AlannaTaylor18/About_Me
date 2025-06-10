@@ -617,6 +617,18 @@ h2 {
 }
 
 /* Recommendations Section */
+#recommendations h2 {
+  margin-bottom: 30px; /* Adds space below the header */
+  text-align: center;
+}
+
+.all_recommendations {
+  margin-top: 20px; /* Pushes recommendations down */
+  display: flex;
+  flex-direction: column; /* Ensures proper stacking */
+  align-items: center;
+  gap: 20px; /* Creates spacing between recommendation boxes */
+}
 .recommendation {
   font-style: italic;
   text-align: left;
