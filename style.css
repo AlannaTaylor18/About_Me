@@ -263,23 +263,17 @@ h2 {
   margin-left: 30px;
 }
 
-/* Recommendations Section */
-.recommendation {
-  font-style: italic;
-  text-align: left;
-  width: 21.875rem;
-  padding: 20px 1rem;
-  background-color: #fff;
-  border-radius: 11px;
-  box-shadow: 0 3px 10px var(--primary-shadow, rgba(0, 0, 0, 0.1));
-  margin: 10px;
-  border: 1px solid gray;
-  font-size: 18px;
-  min-height: 150px;          /* ensures minimum box size */
-  /* Remove fixed height */
-  overflow-wrap: break-word;  /* wrap long words */
-  word-break: break-word;     /* wrap long words */
-  white-space: normal;        /* allow wrapping */
+#recommendations h2 {
+  margin-bottom: 20px; /* Creates space between header and recommendations */
+  text-align: center;
+}
+
+.all_recommendations {
+  margin-top: 20px; /* Pushes recommendations down */
+  display: flex;
+  flex-wrap: wrap; /* Allows recommendations to wrap properly */
+  justify-content: center; /* Centers them */
+  gap: 20px; /* Adds space between recommendation boxes */
 }
 
 /* Form Pop-up */
