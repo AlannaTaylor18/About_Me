@@ -617,21 +617,22 @@ h2 {
 }
 
 /* Recommendations Section */
-#recommendations h2 {
-  margin-bottom: 30px; /* Adds space between header and first recommendation */
-  text-align: center;
-}
-
-.all_recommendations {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px; /* Adds spacing between recommendations */
-}
-
 .recommendation {
-  padding: 15px;
-  border-bottom: 1px solid #ccc; /* Adds separation between recommendations */
+  font-style: italic;
+  text-align: left;
+  width: 21.875rem;
+  padding: 20px 1rem;
+  background-color: #fff;
+  border-radius: 11px;
+  box-shadow: 0 3px 10px var(--primary-shadow, rgba(0, 0, 0, 0.1));
+  margin: 10px;
+  border: 1px solid gray;
+  font-size: 18px;
+  min-height: 150px;          /* ensures minimum box size */
+  /* Remove fixed height */
+  overflow-wrap: break-word;  /* wrap long words */
+  word-break: break-word;     /* wrap long words */
+  white-space: normal;        /* allow wrapping */
 }
 
 /* Form Pop-up */
