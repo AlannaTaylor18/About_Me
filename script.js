@@ -51,7 +51,7 @@ async function sendMessage() {
     chatMessages.scrollTop = chatMessages.scrollHeight;
 
     try {
-      // ✅ Replace with your real deployed backend URL
+      // Backend URL
       const response = await fetch("https://resume-chatbot-alanna.herokuapp.com/api/chat", {
         method: "POST",
         headers: {
