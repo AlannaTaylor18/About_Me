@@ -208,7 +208,37 @@
     <p>&copy; 2025 Alanna Taylor | Built with 💻 by Alanna</p>
   </footer>
 
-  <!-- Scripts -->
-  <script src="./script.js"></script>
+<script>
+  document.getElementById("chat-send").addEventListener("click", async () => {
+    const input = document.getElementById("chat-input").value.trim();
+    if (!input) return;
+
+    const chatBox = document.getElementById("chat-messages");
+    chatBox.innerHTML += `<p><strong>You:</strong> ${input}</p>`;
+
+    try {
+      const res = await fetch("https://alanna-chatbot.onrender.com/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: input }),
+      });
+
+      const data = await res.json();
+      chatBox.innerHTML += `<p><strong>Bot:</strong> ${data.response}</p>`;
+    } catch (err) {
+      chatBox.innerHTML += `<p><strong>Bot:</strong> Sorry, there was an error connecting to the server.</p>`;
+    }
+
+    document.getElementById("chat-input").value = "";
+    chatBox.scrollTop = chatBox.scrollHeight;
+  });
+
+  document.getElementById("chat-input").addEventListener("keydown", function (e) {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      document.getElementById("chat-send").click();
+    }
+  });
+</script>
 </body>
 </html>
