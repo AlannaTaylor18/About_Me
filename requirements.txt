@@ -12,7 +12,7 @@ ffmpy==0.5.0
 filelock==3.18.0
 Flask==3.1.0
 fsspec==2025.3.2
-gradio==5.23.2
+gradio==5.33.1
 gradio_client==1.8.0
 groovy==0.1.2
 gunicorn==23.0.0
