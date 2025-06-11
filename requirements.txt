@@ -50,6 +50,7 @@ requests==2.32.3
 rich==14.0.0
 ruff==0.11.7
 safehttpx==0.1.6
+sentence-transformers
 semantic-version==2.10.0
 shellingham==1.5.4
 six==1.17.0
