@@ -8,7 +8,7 @@ from langchain_community.vectorstores import Chroma
 from langchain_community.document_loaders import PyPDFLoader
 
 # Set your Hugging Face API token and endpoint URL
-HUGGINGFACE_API_TOKEN = "REMOVED"
+HUGGINGFACE_API_TOKEN = "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"
 HF_ENDPOINT_URL = "https://api-inference.huggingface.co/models/google/flan-t5-base"
 
 if not HUGGINGFACE_API_TOKEN:
