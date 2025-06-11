@@ -9,7 +9,7 @@ from langchain_community.document_loaders import PyPDFLoader
 
 import os
 
-HUGGINGFACE_API_TOKEN = os.getenv("HUGGINGFACE_API_TOKEN")
+HUGGINGFACE_API_TOKEN = os.getenv("HUGGINGFACEHUB_API_TOKEN")
 HF_ENDPOINT_URL = "https://api-inference.huggingface.co/models/google/flan-t5-base"
 
 if not HUGGINGFACE_API_TOKEN:
