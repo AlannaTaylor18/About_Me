@@ -7,8 +7,9 @@ from langchain_huggingface import HuggingFaceEndpoint, HuggingFaceEmbeddings
 from langchain_community.vectorstores import Chroma
 from langchain_community.document_loaders import PyPDFLoader
 
-# Set your Hugging Face API token and endpoint URL
-HUGGINGFACE_API_TOKEN = "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"
+import os
+
+HUGGINGFACE_API_TOKEN = os.getenv("HUGGINGFACE_API_TOKEN")
 HF_ENDPOINT_URL = "https://api-inference.huggingface.co/models/google/flan-t5-base"
 
 if not HUGGINGFACE_API_TOKEN:
