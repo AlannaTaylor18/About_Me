@@ -4,6 +4,7 @@ anyio==4.9.0
 blinker==1.9.0
 certifi==2025.4.26
 charset-normalizer==3.4.1
+chromadb
 click==8.1.8
 colorama==0.4.6
 distro==1.9.0
