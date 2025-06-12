@@ -22,8 +22,15 @@ llm = HuggingFaceEndpoint(
     model_kwargs={"max_length": 512},
 )
 
-# Load documents (PDF resume)
+# Set resume path
 resume_path = "./static/RESUME_Taylor Alanna 2025_Tech.pdf"
+
+# Debug: Check if the file exists before trying to load it
+print("Checking resume file existence...")
+print("Absolute path:", os.path.abspath(resume_path))
+print("File exists:", os.path.isfile(resume_path))
+
+# Load documents (PDF resume)
 loader = PyPDFLoader(resume_path)
 documents = loader.load()
 print(f"Loaded {len(documents)} documents")
