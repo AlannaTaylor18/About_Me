@@ -1,5 +1,7 @@
+from flask import Flask, request, jsonify, render_template
 import os
-from flask import Flask, request, jsonify
+
+app = Flask(__name__, static_folder='static', template_folder='templates')
 
 # Use langchain_huggingface to avoid deprecation warnings
 from langchain.chains import RetrievalQA
@@ -41,8 +43,7 @@ print(f"Loaded {len(documents)} documents")
 embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
 
 # Create vectorstore (Chroma) from documents without persistence folder
-vectorstore = Chroma.from_documents(documents, embeddings, persist_directory="./chroma_db")
-vectorstore.persist()
+vectorstore = Chroma.from_documents(documents, embeddings, persist_directory=None)
 
 # Create retriever
 retriever = vectorstore.as_retriever()
@@ -51,8 +52,6 @@ retriever = vectorstore.as_retriever()
 qa = RetrievalQA.from_chain_type(llm=llm, retriever=retriever)
 
 # Initialize Flask app
-app = Flask(__name__)
-
 import traceback
 
 @app.route('/chat', methods=['POST'])
@@ -78,9 +77,9 @@ def chat():
         return jsonify({"response": "Error processing your request."})
 
 
-@app.route("/", methods=["GET"])
+@app.route('/')
 def home():
-    return "Resume Chatbot is running!"
+    return render_template('index.html')
 
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 5000))
