@@ -22,6 +22,7 @@ llm = HuggingFaceEndpoint(
     model_kwargs={"max_length": 512},
 )
 
+# Load documents (PDF resume)
 # Set resume path
 resume_path = "./static/RESUME_Taylor Alanna 2025_Tech.pdf"
 
@@ -34,6 +35,7 @@ print("File exists:", os.path.isfile(resume_path))
 loader = PyPDFLoader(resume_path)
 documents = loader.load()
 print(f"Loaded {len(documents)} documents")
+
 
 # Setup embeddings model
 embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
