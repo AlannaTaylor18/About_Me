@@ -54,9 +54,9 @@ def chat():
         return jsonify({'response': 'No message received.'})
 
     try:
-        print(f"Received message: {user_message}")
+        print(f"📨 Received message: {user_message}")  # New log
         result = qa.invoke({"query": user_message})
-        print(f"QA invoke raw result: {result} (type: {type(result)})")  # Debug print
+        print(f"🤖 QA result: {result}")  # New log
 
         if isinstance(result, dict) and "result" in result:
             response = result["result"]
@@ -65,7 +65,7 @@ def chat():
 
         return jsonify({'response': response})
     except Exception as e:
-        print("Error processing request:")
+        print("❌ Error occurred:")
         traceback.print_exc()
         return jsonify({"response": "Error processing your request."})
 
