@@ -72,7 +72,3 @@ def chat():
 def home():
     return "Resume Chatbot is running!"
 
-if __name__ == "__main__":
-    port = int(os.environ.get('PORT', 5000))
-    print("Before app.run()")
-    app.run(host='0.0.0.0', port=port)
