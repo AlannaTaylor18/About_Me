@@ -54,6 +54,7 @@ def chat():
         return jsonify({'response': 'No message received.'})
 
     try:
+        print(f"Received message: {user_message}")
         result = qa.invoke({"query": user_message})
         print(f"QA invoke raw result: {result} (type: {type(result)})")  # Debug print
 
