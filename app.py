@@ -71,5 +71,6 @@ def chat():
 if __name__ == "__main__":
     import os
     port = int(os.environ.get('PORT', 5000))
-    print(f"Starting server on port {port}...")  # <-- Add this to confirm startup
+    print("Before app.run()")
     app.run(host='0.0.0.0', port=port)
+    print("This will never print if app.run() blocks")
