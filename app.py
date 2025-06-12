@@ -68,9 +68,11 @@ def chat():
         traceback.print_exc()
         return jsonify({"response": "Error processing your request."})
 
+@app.route("/", methods=["GET"])
+def home():
+    return "Resume Chatbot is running!"
+
 if __name__ == "__main__":
-    import os
     port = int(os.environ.get('PORT', 5000))
     print("Before app.run()")
     app.run(host='0.0.0.0', port=port)
-    print("This will never print if app.run() blocks")
