@@ -41,7 +41,8 @@ print(f"Loaded {len(documents)} documents")
 embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
 
 # Create vectorstore (Chroma) from documents without persistence folder
-vectorstore = Chroma.from_documents(documents, embeddings)
+vectorstore = Chroma.from_documents(documents, embeddings, persist_directory="./chroma_db")
+vectorstore.persist()
 
 # Create retriever
 retriever = vectorstore.as_retriever()
