@@ -69,7 +69,7 @@ async function sendMessage() {
       // Add bot response
       const botMsg = document.createElement("div");
       botMsg.className = "bot-message";
-      botMsg.textContent = data.reply || "Sorry, I didn't get that.";
+      botMsg.textContent = data.response || "Sorry, I didn't get that.";
       chatMessages.appendChild(botMsg);
       chatMessages.scrollTop = chatMessages.scrollHeight;
 
