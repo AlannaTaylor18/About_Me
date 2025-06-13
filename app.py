@@ -1,4 +1,5 @@
 import os
+import sys
 import traceback
 from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
@@ -17,43 +18,52 @@ CORS(app, origins=["https://alannataylor18.github.io"])
 llm = None
 qa = None
 
+print("🚀 Starting Flask app...")
+
 def setup_qa_chain():
     global llm, qa
+    try:
+        if llm is not None and qa is not None:
+            print("✅ QA chain already initialized.")
+            return
 
-    if llm is not None and qa is not None:
-        return  # Already initialized
+        print("🔧 Initializing QA system...")
 
-    HUGGINGFACE_API_TOKEN = os.getenv("HUGGINGFACE_API_TOKEN")
-    HF_ENDPOINT_URL = os.getenv(
-        "HF_ENDPOINT_URL", 
-        "https://api-inference.huggingface.co/models/google/flan-t5-base"
-    )
+        HUGGINGFACE_API_TOKEN = os.getenv("HUGGINGFACE_API_TOKEN")
+        HF_ENDPOINT_URL = os.getenv(
+            "HF_ENDPOINT_URL",
+            "https://api-inference.huggingface.co/models/google/flan-t5-base"
+        )
 
-    if not HUGGINGFACE_API_TOKEN:
-        raise ValueError("Set your HUGGINGFACE_API_TOKEN environment variable!")
+        if not HUGGINGFACE_API_TOKEN:
+            raise ValueError("❌ Set your HUGGINGFACE_API_TOKEN environment variable!")
 
-    print("Checking resume file existence...")
-    resume_path = "static/Alanna_Taylor_Resume.pdf"
-    print("Absolute path:", os.path.abspath(resume_path))
-    print("File exists:", os.path.isfile(resume_path))
+        resume_path = "static/Alanna_Taylor_Resume.pdf"
+        print("📄 Checking resume at:", os.path.abspath(resume_path))
+        if not os.path.isfile(resume_path):
+            raise FileNotFoundError(f"Resume not found at {resume_path}")
 
-    loader = PyPDFLoader(resume_path)
-    documents = loader.load()
-    print(f"Loaded {len(documents)} documents")
+        loader = PyPDFLoader(resume_path)
+        documents = loader.load()
+        print(f"📚 Loaded {len(documents)} documents")
 
-    embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
+        embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
+        vectorstore = Chroma.from_documents(documents, embeddings)
+        retriever = vectorstore.as_retriever()
 
-    vectorstore = Chroma.from_documents(documents, embeddings)
-    retriever = vectorstore.as_retriever()
+        llm = HuggingFaceEndpoint(
+            endpoint_url=HF_ENDPOINT_URL,
+            huggingfacehub_api_token=HUGGINGFACE_API_TOKEN,
+            model_kwargs={"max_length": 512},
+        )
 
-    llm = HuggingFaceEndpoint(
-        endpoint_url=HF_ENDPOINT_URL,
-        huggingfacehub_api_token=HUGGINGFACE_API_TOKEN,
-        model_kwargs={"max_length": 512},
-    )
+        qa = RetrievalQA.from_chain_type(llm=llm, retriever=retriever)
+        print("✅ QA system is ready!")
 
-    qa = RetrievalQA.from_chain_type(llm=llm, retriever=retriever)
-    print("✅ QA system ready")
+    except Exception as e:
+        print("❌ Error during QA chain setup:")
+        traceback.print_exc()
+        sys.exit(1)
 
 @app.route('/chat', methods=['POST'])
 def chat():
@@ -70,7 +80,7 @@ def chat():
         response = result.get("result", "🤖 No answer found.")
         return jsonify({'response': response}), 200
     except Exception as e:
-        print("❌ Error:", e)
+        print("❌ Error while answering query:")
         traceback.print_exc()
         return jsonify({"response": "❌ Server error. Please try again later."}), 500
 
@@ -80,4 +90,6 @@ def home():
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
+    print(f"🌐 Running on port {port}")
+    setup_qa_chain()
     app.run(host="0.0.0.0", port=port)
