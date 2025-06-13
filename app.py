@@ -28,7 +28,7 @@ llm = HuggingFaceEndpoint(
 )
 
 # Load resume PDF once
-resume_path = "static/files/Alanna_Taylor_Resume.pdf"
+resume_path = "static/Alanna_Taylor_Resume.pdf"
 print("Checking resume file existence...")
 print("Absolute path:", os.path.abspath(resume_path))
 print("File exists:", os.path.isfile(resume_path))
@@ -71,3 +71,6 @@ def chat():
 @app.route('/')
 def home():
     return render_template('index.html')
+
+if __name__ == "__main__":
+    app.run(host='0.0.0.0', port=5000)
