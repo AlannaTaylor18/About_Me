@@ -52,7 +52,7 @@ async function sendMessage() {
 
     try {
       // Backend URL
-      const response = await fetch("https://resume-chatbot-alanna.herokuapp.com/api/chat", {
+      const response = await fetch("https://alanna-chatbot.onrender.com", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
