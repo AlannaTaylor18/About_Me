@@ -6,6 +6,7 @@ annotated-types==0.7.0
 anyio==4.9.0
 asgiref==3.8.1
 attrs==25.3.0
+audioop-lts==0.2.1
 backoff==2.2.1
 bcrypt==4.3.0
 blinker==1.9.0
@@ -58,6 +59,7 @@ kubernetes==33.1.0
 langchain==0.3.25
 langchain-community==0.3.25
 langchain-core==0.3.65
+langchain-huggingface==0.3.0
 langchain-text-splitters==0.3.8
 langsmith==0.3.45
 markdown-it-py==3.0.0

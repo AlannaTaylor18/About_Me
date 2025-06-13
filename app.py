@@ -1,11 +1,7 @@
-from flask import Flask, request, jsonify, render_template
-from flask_cors import CORS
 import os
 import traceback
-
-# Flask setup
-app = Flask(__name__, static_folder='static', template_folder='templates')
-CORS(app, origins=["https://alannataylor18.github.io"])
+from flask import Flask, request, jsonify, render_template
+from flask_cors import CORS
 
 # LangChain & Hugging Face imports
 from langchain.chains import RetrievalQA
@@ -13,17 +9,23 @@ from langchain_huggingface import HuggingFaceEndpoint, HuggingFaceEmbeddings
 from langchain_community.vectorstores import Chroma
 from langchain_community.document_loaders import PyPDFLoader
 
-# Hugging Face config
-huggingface_token = os.getenv("HUGGINGFACE_API_TOKEN")
-HF_ENDPOINT_URL = os.getenv("HF_ENDPOINT_URL") or "https://api-inference.huggingface.co/models/google/flan-t5-base"
+# Flask app setup
+app = Flask(__name__, static_folder='static', template_folder='templates')
 
-if not huggingface_token:
+# Enable CORS only for your GitHub Pages frontend
+CORS(app, origins=["https://alannataylor18.github.io"])
+
+# Load environment variables for Hugging Face
+HUGGINGFACE_API_TOKEN = os.getenv("HUGGINGFACE_API_TOKEN")
+HF_ENDPOINT_URL = os.getenv("HF_ENDPOINT_URL", "https://api-inference.huggingface.co/models/google/flan-t5-base")
+
+if not HUGGINGFACE_API_TOKEN:
     raise ValueError("Set your HUGGINGFACE_API_TOKEN environment variable!")
 
-# Initialize the LLM once
+# Initialize the Hugging Face endpoint (LLM) once at startup
 llm = HuggingFaceEndpoint(
     endpoint_url=HF_ENDPOINT_URL,
-    huggingfacehub_api_token=huggingface_token,
+    huggingfacehub_api_token=HUGGINGFACE_API_TOKEN,
     model_kwargs={"max_length": 512},
 )
 

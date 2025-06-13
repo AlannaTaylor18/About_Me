@@ -1,3 +1,40 @@
+# --- ENVIRONMENT & SECRETS ---
 .env
+*.env
+
+# --- PYTHON STUFF ---
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+.Python
+.mypy_cache/
+.pytest_cache/
+.pyre/
+.pylint.d/
+
+# --- VENVs ---
+venv/
+.venv/
+
+# --- CHROMADB LOCAL STORAGE ---
 .chromadb/
-.chromadb/
+chroma/
+
+# --- LOG FILES ---
+*.log
+
+# --- OS FILES ---
+.DS_Store
+Thumbs.db
+
+# --- IDE FILES ---
+.vscode/
+.idea/
+
+# --- PACKAGING ---
+build/
+dist/
+*.egg-info/
+
