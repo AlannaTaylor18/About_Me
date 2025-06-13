@@ -98,3 +98,24 @@ blockquote {
 }
 
 /* Additional styling for navigation and other containers can be added here if y
+/* Center and constrain layout */
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+/* Responsive images */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Headings styling */
+h1, h2, h3 {
+  text-align: center;
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+  color: #222;
+}
