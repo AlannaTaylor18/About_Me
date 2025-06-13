@@ -18,7 +18,7 @@
       <a class="topmenu" href="#skills">Skills</a>
       <a class="topmenu" href="#projects">Projects</a>
       <a class="topmenu" href="#recommendations">Recommendations</a>
-      <a class="topmenu" href="files/RESUME_Taylor Alanna 2025_Tech.pdf" target="_blank" rel="noopener noreferrer">Resume</a>
+      <a class="topmenu" href="static/Alanna_Taylor_Resume.pdf" target="_blank" rel="noopener noreferrer">Resume</a>
     </div>
 
     <div class="nav-right">
@@ -104,65 +104,57 @@
     </div>
   </section>
 
-<!-- Projects -->
-    <section class="projects" id="projects">
-      <h2>
-        Projects
-      </h2>
-      <div style="clear:both;"></div>
-
-        <div id="projects-container" class="projects-container">
-          <div class="project-card">
-            <h3>Chatbot</h3>
-            <ul>
-              <li>Developed a secure website integrated with chatbot using HTML, CSS, JavaScript and IBM Watson Assistant</li>
-            </ul>
-          </div>
-          <hr>
-          <div class="project-card">
-            <h3>Website Development</h3>
-            <ul>
-              <li>Developed and deployed a website "About Me"</li>
-            </ul>
-          </div>
-          <hr>
-          <div class="project-card">
-            <h3>Training Website</h3>
-            <ul>
-              <li>Created a basic website for a Personal Trainer to advertise</li>
-            </ul>
-          </div>
-    </div>
-    </section>
+  <!-- Projects -->
+  <section class="projects" id="projects">
+    <h2>Projects</h2>
     <div style="clear:both;"></div>
-  
- <!-- Recommendations -->
-<section id="recommendations">
-  <h2>Recommendations</h2>
-  
-  <!-- Divider to create space between header and recommendations -->
-  <hr style="margin-bottom: 20px; border: 1px solid gray;" />
+    <div id="projects-container" class="projects-container">
+      <div class="project-card">
+        <h3>Chatbot</h3>
+        <ul>
+          <li>Developed a secure website integrated with chatbot using HTML, CSS, JavaScript and IBM Watson Assistant</li>
+        </ul>
+      </div>
+      <hr>
+      <div class="project-card">
+        <h3>Website Development</h3>
+        <ul>
+          <li>Developed and deployed a website "About Me"</li>
+        </ul>
+      </div>
+      <hr>
+      <div class="project-card">
+        <h3>Training Website</h3>
+        <ul>
+          <li>Created a basic website for a Personal Trainer to advertise</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+  <div style="clear:both;"></div>
 
-  <div class="all_recommendations" id="all_recommendations">
-    <div class="recommendation">
-      <span>&#8220;</span>
-      Alanna is an excellent Lead and an inspirational coach. Her technical skills allow her team to work effectively and achieve high active enrollment rates. - Yianna P.
-      <span>&#8221;</span>
+  <!-- Recommendations -->
+  <section id="recommendations">
+    <h2>Recommendations</h2>
+    <hr style="margin-bottom: 20px; border: 1px solid gray;" />
+    <div class="all_recommendations" id="all_recommendations">
+      <div class="recommendation">
+        <span>&#8220;</span>
+        Alanna is an excellent Lead and an inspirational coach. Her technical skills allow her team to work effectively and achieve high active enrollment rates. - Yianna P.
+        <span>&#8221;</span>
+      </div>
+      <div class="recommendation">
+        <span>&#8220;</span>
+        Alanna's exceptional detail in skills results in high-quality work, and her ability to provide quick solutions contribute significantly to productivity. She brings a rare combination of technical expertise and creative problem-solving to every project. - Maureen H.
+        <span>&#8221;</span>
+      </div>
+      <div class="recommendation">
+        <span>&#8220;</span>
+        Working with Alanna was a seamless experience. Her quick turnaround, clear communication, and intuitive design sense helped bring our vision to life faster than expected.
+        <span>&#8221;</span>
+      </div>
     </div>
-    
-    <div class="recommendation">
-      <span>&#8220;</span>
-      Alanna's exceptional detail in skills results in high-quality work, and her ability to provide quick solutions contribute significantly to productivity. She brings a rare combination of technical expertise and creative problem-solving to every project. - Maureen H.
-      <span>&#8221;</span>
-    </div>
-    
-    <div class="recommendation">
-      <span>&#8220;</span>
-      Working with Alanna was a seamless experience. Her quick turnaround, clear communication, and intuitive design sense helped bring our vision to life faster than expected.
-      <span>&#8221;</span>
-    </div>
-  </div>
-</section>
+  </section>
 
   <!-- Recommendation Form -->
   <section id="contact">
@@ -179,11 +171,11 @@
   </section>
 
   <!-- Chatbot -->
-  <div id="chatbot-container" style="border:1px solid #ccc; padding:1rem; max-width:400px;">
+  <div id="chatbot-container">
     <h2>Resume Chatbot</h2>
     <p>Try asking about my skills!</p>
-    <div id="chat-messages" style="height:300px; overflow-y:auto; border:1px solid #999; padding:0.5rem; margin-bottom:0.5rem;"></div>
-    <input type="text" id="chat-input" placeholder="Type your message and hit Enter" style="width:100%; padding:0.5rem;" />
+    <div id="chat-messages"></div>
+    <input type="text" id="chat-input" placeholder="Type your message and hit Enter" />
     <button id="chat-send">Send</button>
   </div>
 
@@ -198,7 +190,7 @@
 
   <!-- Popup -->
   <div class="popup flex_center" id="popup">
-    <img src="static/images/check-mark-vector-icon.jpg" alt="Checkmark">
+    <img src="static/images/check-mark-vector-icon.jpg" alt="Checkmark" />
     <h3>Your recommendation has been submitted!</h3>
     <button onclick="showPopup(false)">Ok</button>
   </div>
@@ -208,6 +200,6 @@
     <p>&copy; 2025 Alanna Taylor | Built with 💻 by Alanna</p>
   </footer>
 
-<script src="static/script.js"></script>
+  <script src="static/script.js"></script>
 </body>
 </html>

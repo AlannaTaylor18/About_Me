@@ -23,18 +23,20 @@ section {
   border: 1px solid #ddd;
 }
 
-#chat-container {
-  max-width: 600px;
+/* Updated container ID to match HTML */
+#chatbot-container {
+  max-width: 400px;
   background: #fff;
-  border: 1px solid #ddd;
+  border: 1px solid #ccc;
   padding: 1rem;
   border-radius: 6px;
+  margin-top: 1rem;
 }
 
 #chat-messages {
   height: 300px;
   overflow-y: auto;
-  border: 1px solid #ccc;
+  border: 1px solid #999;
   padding: 0.5rem;
   margin-bottom: 0.5rem;
   background: #fafafa;
@@ -94,3 +96,5 @@ blockquote {
   padding-left: 10px;
   margin: 10px 0;
 }
+
+/* Additional styling for navigation and other containers can be added here if y
