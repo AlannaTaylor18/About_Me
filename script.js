@@ -51,38 +51,35 @@ async function sendMessage() {
     chatMessages.scrollTop = chatMessages.scrollHeight;
 
     try {
-      // Backend URL
-      const response = await fetch("https://alanna-chatbot.onrender.com", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": "HRKU-AAAJB02PkglwW9bmx4OzJtHBstGFt_TVup8s9DpVnCsg_____waHx_synQFI"
-        },
-        body: JSON.stringify({ message: message }),
-      });
+  // Backend URL
+  const response = await fetch("https://alanna-chatbot.onrender.com/chat", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ message: message }),
+  });
 
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-
-      const data = await response.json();
-
-      // Add bot response
-      const botMsg = document.createElement("div");
-      botMsg.className = "bot-message";
-      botMsg.textContent = data.reply || "Sorry, I didn't get that.";
-      chatMessages.appendChild(botMsg);
-      chatMessages.scrollTop = chatMessages.scrollHeight;
-
-    } catch (error) {
-      console.error("Error calling backend:", error);
-      const botMsg = document.createElement("div");
-      botMsg.className = "bot-message";
-      botMsg.textContent = "Error contacting the server. Please try again later.";
-      chatMessages.appendChild(botMsg);
-      chatMessages.scrollTop = chatMessages.scrollHeight;
-    }
+  if (!response.ok) {
+    throw new Error("Network response was not ok");
   }
+
+  const data = await response.json();
+
+  // Add bot response
+  const botMsg = document.createElement("div");
+  botMsg.className = "bot-message";
+  botMsg.textContent = data.reply || "Sorry, I didn't get that.";
+  chatMessages.appendChild(botMsg);
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+
+} catch (error) {
+  console.error("Error calling backend:", error);
+  const botMsg = document.createElement("div");
+  botMsg.className = "bot-message";
+  botMsg.textContent = "Error contacting the server. Please try again later.";
+  chatMessages.appendChild(botMsg);
+  chatMessages.scrollTop = chatMessages.scrollHeight;
 }
 
 // === INIT EVENT LISTENERS ===
