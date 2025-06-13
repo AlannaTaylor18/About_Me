@@ -55,16 +55,11 @@ def setup_qa_chain():
     qa = RetrievalQA.from_chain_type(llm=llm, retriever=retriever)
     print("✅ QA system ready")
 
-@app.before_first_request
-def before_first_request():
-    setup_qa_chain()
-
 @app.route('/chat', methods=['POST'])
 def chat():
     global qa
-
     if qa is None:
-        return jsonify({"response": "🔄 Server still warming up. Please try again shortly."}), 503
+        setup_qa_chain()
 
     user_message = request.json.get('message', '').strip()
     if not user_message:
