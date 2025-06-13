@@ -10,9 +10,11 @@ from langchain_community.vectorstores import Chroma
 from langchain_community.document_loaders import PyPDFLoader
 from langchain.chains import RetrievalQA
 
-# Create the Flask app
+# Create the Flask app (only once)
 app = Flask(__name__, static_folder='static', template_folder='templates')
-CORS(app, origins=["https://alannataylor18.github.io"])
+
+# Enable CORS for your specific frontend origin with needed headers and methods
+CORS(app, resources={r"/*": {"origins": "https://alannataylor18.github.io"}}, supports_credentials=True)
 
 # Global variables for your LLM and QA system
 llm = None
@@ -65,8 +67,19 @@ def setup_qa_chain():
         traceback.print_exc()
         sys.exit(1)
 
-@app.route('/chat', methods=['POST'])
+from flask import make_response
+
+@app.route('/chat', methods=['OPTIONS', 'POST'])
 def chat():
+    if request.method == 'OPTIONS':
+        # Respond to preflight CORS request
+        response = make_response()
+        response.headers.add("Access-Control-Allow-Origin", "https://alannataylor18.github.io")
+        response.headers.add("Access-Control-Allow-Headers", "Content-Type")
+        response.headers.add("Access-Control-Allow-Methods", "POST, OPTIONS")
+        response.headers.add("Access-Control-Allow-Credentials", "true")
+        return response
+
     global qa
     if qa is None:
         setup_qa_chain()
