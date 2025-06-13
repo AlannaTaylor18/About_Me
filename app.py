@@ -13,8 +13,8 @@ from langchain.chains import RetrievalQA
 # Create the Flask app (only once)
 app = Flask(__name__, static_folder='static', template_folder='templates')
 
-# Enable CORS for your specific frontend origin
-CORS(app, resources={r"/*": {"origins": "https://alannataylor18.github.io"}}, supports_credentials=True)
+# Enable CORS only for your frontend domain
+CORS(app, resources={r"/*": {"origins": "https://alannataylor18.github.io"}})
 
 # Global variables for your LLM and QA system
 llm = None
