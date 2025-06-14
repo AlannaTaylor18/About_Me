@@ -52,14 +52,14 @@ async function sendMessage() {
 
     try {
       // Backend URL
-      const response = await fetch("https://alanna-chatbot.onrender.com", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": "HRKU-AAAJB02PkglwW9bmx4OzJtHBstGFt_TVup8s9DpVnCsg_____waHx_synQFI"
-        },
-        body: JSON.stringify({ message: message }),
-      });
+      const response = await fetch("https://alanna-chatbot.onrender.com/chat", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    "Authorization": "HRKU-AAAJB02PkglwW9bmx4OzJtHBstGFt_TVup8s9DpVnCsg_____waHx_synQFI"
+  },
+  body: JSON.stringify({ message: message }),
+});
 
       if (!response.ok) {
         throw new Error("Network response was not ok");

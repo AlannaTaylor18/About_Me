@@ -3,39 +3,39 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Alanna Taylor – Portfolio</title>
+  <title>Alanna Taylor – Portfolio</title>
 
-  <!-- main site stylesheet lives in docs/style.css -->
-  <link rel="stylesheet" href="style.css" />
+  <!-- main site stylesheet in Flask static folder -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
 </head>
 
 <body>
-  <!-- ▸▸ NAVIGATION -------------------------------------------------------- -->
+  <!-- ▸▸ NAVIGATION -------------------------------------------------------- -->
   <nav class="navigation">
     <div class="nav-left">
-      <div class="profile_name">Alanna Taylor</div>
+      <div class="profile_name">Alanna Taylor</div>
     </div>
 
     <div class="nav-center">
-      <a class="topmenu" href="#about-me">About Me</a>
+      <a class="topmenu" href="#about-me">About Me</a>
       <a class="topmenu" href="#skills">Skills</a>
       <a class="topmenu" href="#projects">Projects</a>
       <a class="topmenu" href="#recommendations">Recommendations</a>
-      <!-- PDF lives in docs/files/ so the link is local -->
+      <!-- PDF in static files folder -->
       <a class="topmenu"
-         href="files/RESUME_Taylor_Alanna_2025_Tech.pdf"
+         href="{{ url_for('static', filename='RESUME_Taylor Alanna 2025_Tech.pdf') }}"
          target="_blank" rel="noopener noreferrer">
-        Resume
+        Resume
       </a>
     </div>
 
     <div class="nav-right">
       <div class="contact_info">
-        <img src="images/phone.jpg" alt="Phone icon" />
+        <img src="{{ url_for('static', filename='images/phone.jpg') }}" alt="Phone icon" />
         <span>772‑626‑4475</span>
       </div>
       <div class="contact_info">
-        <img src="images/Email.jpg" alt="Email icon" />
+        <img src="{{ url_for('static', filename='images/Email.jpg') }}" alt="Email icon" />
         <span>AlannaTaylor@live.com</span>
       </div>
       <div class="contact_info">
@@ -52,32 +52,32 @@
     </div>
   </nav>
 
-  <!-- ▸▸ ABOUT ME ----------------------------------------------------------- -->
+  <!-- ▸▸ ABOUT ME ----------------------------------------------------------- -->
   <section id="about-me" class="about-container">
     <div class="about-wrapper">
       <img src="https://cdn.pixabay.com/animation/2024/09/09/14/14/14-14-48-336_512.gif"
            alt="Typing animation" class="about-img" />
       <div class="about-text">
-        <p>I'm a “techy” educator&nbsp;… (&lt;-- your existing paragraphs stay the same&nbsp;…)</p>
+        <p>I'm a “techy” educator&nbsp;… (&lt;-- your existing paragraphs stay the same&nbsp;…)</p>
       </div>
     </div>
   </section>
 
-  <!-- ▸▸ SKILLS ------------------------------------------------------------- -->
+  <!-- ▸▸ SKILLS ------------------------------------------------------------- -->
   <section id="skills">
     <h2>Skills</h2>
     <div class="all_skills">
-      <!-- just one example block, leave the others as‑is -->
+      <!-- example block -->
       <div class="skill">
-        <img src="images/HTML.jpg" alt="HTML logo" />
+        <img src="{{ url_for('static', filename='images/HTML.jpg') }}" alt="HTML logo" />
         <h6>HTML</h6>
-        <p>1 year experience</p>
+        <p>1 year experience</p>
       </div>
-      <!-- …other <div class="skill"> blocks unchanged… -->
+      <!-- …other skill blocks unchanged… -->
     </div>
   </section>
 
-  <!-- ▸▸ PROJECTS ----------------------------------------------------------- -->
+  <!-- ▸▸ PROJECTS ----------------------------------------------------------- -->
   <section id="projects" class="projects">
     <h2>Projects</h2>
     <div id="projects-container" class="projects-container">
@@ -85,7 +85,7 @@
     </div>
   </section>
 
-  <!-- ▸▸ RECOMMENDATIONS ---------------------------------------------------- -->
+  <!-- ▸▸ RECOMMENDATIONS ---------------------------------------------------- -->
   <section id="recommendations">
     <h2>Recommendations</h2>
     <hr />
@@ -94,7 +94,7 @@
     </div>
   </section>
 
-  <!-- ▸▸ RECOMMENDATION FORM ----------------------------------------------- -->
+  <!-- ▸▸ RECOMMENDATION FORM ----------------------------------------------- -->
   <section id="contact">
     <fieldset>
       <legend class="introduction">Leave a Recommendation</legend>
@@ -104,63 +104,32 @@
     </fieldset>
   </section>
 
-  <!-- ▸▸ CHATBOT ------------------------------------------------------------ -->
+  <!-- ▸▸ CHATBOT ------------------------------------------------------------ -->
   <div id="chatbot-container">
-    <h2>Resume Chatbot</h2>
+    <h2>Resume Chatbot</h2>
     <p>Try asking about my skills!</p>
     <div id="chat-messages"></div>
-    <input type="text" id="chat-input" placeholder="Type your message and hit Enter" />
+    <input type="text" id="chat-input" placeholder="Type your message and hit Enter" />
     <button id="chat-send">Send</button>
   </div>
 
-  <!-- ▸▸ SCROLL‑TO‑TOP BUTTON ---------------------------------------------- -->
+  <!-- ▸▸ SCROLL-TO-TOP BUTTON ---------------------------------------------- -->
   <a class="iconbutton" href="#home" title="Back to top">
     <!-- SVG unchanged -->
   </a>
 
-  <!-- ▸▸ POPUP & FOOTER ----------------------------------------------------- -->
+  <!-- ▸▸ POPUP & FOOTER ----------------------------------------------------- -->
   <div class="popup" id="popup">
-    <img src="html_finalprojimages/checkmark--outline.svg" alt="Checkmark" />
+    <img src="{{ url_for('static', filename='html_finalprojimages/checkmark--outline.svg') }}" alt="Checkmark" />
     <h3>Your recommendation has been submitted!</h3>
     <button onclick="showPopup(false)">Ok</button>
   </div>
 
   <footer>
-    <p>&copy; 2025 Alanna Taylor | Built with 💻 by Alanna</p>
+    <p>&copy; 2025 Alanna Taylor | Built with 💻 by Alanna</p>
   </footer>
 
-  <!-- ▸▸ INLINE JS ---------------------------------------------------------- -->
-  <script>
-    /* JS talking to your Render backend */
-    document.getElementById("chat-send").addEventListener("click", async () => {
-      const inputEl = document.getElementById("chat-input");
-      const input = inputEl.value.trim();
-      if (!input) return;
-
-      const chatBox = document.getElementById("chat-messages");
-      chatBox.innerHTML += `<p><strong>You:</strong> ${input}</p>`;
-
-      try {
-        const res = await fetch("https://alanna-chatbot.onrender.com/chat", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ message: input })
-        });
-        const data = await res.json();
-        chatBox.innerHTML += `<p><strong>Bot:</strong> ${data.response}</p>`;
-      } catch (err) {
-        chatBox.innerHTML += `<p><strong>Bot:</strong> Sorry, there was an error connecting to the server.</p>`;
-      }
-      inputEl.value = "";
-      chatBox.scrollTop = chatBox.scrollHeight;
-    });
-
-    document.getElementById("chat-input").addEventListener("keydown", e => {
-      if (e.key === "Enter") {
-        e.preventDefault();
-        document.getElementById("chat-send").click();
-      }
-    });
-  </script>
+  <!-- ▸▸ INLINE JS ---------------------------------------------------------- -->
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>

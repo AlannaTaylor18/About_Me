@@ -1,55 +1,60 @@
 import os
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+import traceback
 
+# Flask app initialization
 app = Flask(__name__)
+
+# Setup CORS to allow your GitHub Pages front-end only
 CORS(app, origins=["https://alannataylor18.github.io"], allow_headers=["Content-Type", "Authorization"])
 
-# Use langchain_huggingface to avoid deprecation warnings
+# Import langchain after Flask and CORS setup
 from langchain.chains import RetrievalQA
 from langchain_huggingface import HuggingFaceEndpoint, HuggingFaceEmbeddings
 from langchain_community.vectorstores import Chroma
 from langchain_community.document_loaders import PyPDFLoader
 
-import os
-
+# Load Hugging Face API token from environment variable
 HUGGINGFACE_API_TOKEN = os.getenv("HUGGINGFACEHUB_API_TOKEN")
 HF_ENDPOINT_URL = "https://api-inference.huggingface.co/models/google/flan-t5-base"
 
 if not HUGGINGFACE_API_TOKEN:
     raise ValueError("Set your HUGGINGFACEHUB_API_TOKEN environment variable!")
 
-# Initialize the LLM (remote model inference endpoint)
+# Initialize HuggingFace LLM endpoint
 llm = HuggingFaceEndpoint(
     endpoint_url=HF_ENDPOINT_URL,
     huggingfacehub_api_token=HUGGINGFACE_API_TOKEN,
     model_kwargs={"max_length": 512},
 )
 
-# Load documents (PDF resume)
+# Set the path to your PDF resume relative to this script
 resume_path = "./static/RESUME_Taylor Alanna 2025_Tech.pdf"
-loader = PyPDFLoader(resume_path)
-documents = loader.load()
-print(f"Loaded {len(documents)} documents")
 
-# Setup embeddings model
+# Debug: print absolute path and check existence
+print("Resume absolute path:", os.path.abspath(resume_path))
+print("Resume exists:", os.path.exists(resume_path))
+
+# Load documents from PDF
+try:
+    loader = PyPDFLoader(resume_path)
+    documents = loader.load()
+    print(f"Loaded {len(documents)} documents from resume")
+except Exception as e:
+    print("Error loading PDF:", e)
+    documents = []
+
+# Setup embeddings and vector store
 embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
-
-# Create vectorstore (Chroma) from documents
 persist_directory = "./chroma_db"
-vectorstore = Chroma.from_documents(documents, embeddings, persist_directory=persist_directory)
-# No need to call persist() manually with recent Chroma versions
 
-# Create retriever
+vectorstore = Chroma.from_documents(documents, embeddings, persist_directory=persist_directory)
+
 retriever = vectorstore.as_retriever()
 
 # Setup RetrievalQA chain
 qa = RetrievalQA.from_chain_type(llm=llm, retriever=retriever)
-
-# Initialize Flask app
-app = Flask(__name__)
-
-import traceback
 
 @app.route('/chat', methods=['POST'])
 def chat():
@@ -58,9 +63,9 @@ def chat():
         return jsonify({'response': 'No message received.'})
 
     try:
-        print(f"📨 Received message: {user_message}")  # New log
+        print(f"📨 Received message: {user_message}")
         result = qa.invoke({"query": user_message})
-        print(f"🤖 QA result: {result}")  # New log
+        print(f"🤖 QA result: {result}")
 
         if isinstance(result, dict) and "result" in result:
             response = result["result"]
@@ -68,11 +73,10 @@ def chat():
             response = str(result)
 
         return jsonify({'response': response})
-    except Exception as e:
+    except Exception:
         print("❌ Error occurred:")
         traceback.print_exc()
         return jsonify({"response": "Error processing your request."})
-
 
 @app.route("/", methods=["GET"])
 def home():
