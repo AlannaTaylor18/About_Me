@@ -17,7 +17,7 @@ from langchain_community.document_loaders import PyPDFLoader
 
 # Load Hugging Face API token from environment variable
 HUGGINGFACE_API_TOKEN = os.getenv("HUGGINGFACEHUB_API_TOKEN")
-HF_ENDPOINT_URL = "https://api-inference.huggingface.co/models/google/flan-t5-base"
+HF_ENDPOINT_URL = "https://api-inference.huggingface.co/models/google/flan-t5-small"
 
 if not HUGGINGFACE_API_TOKEN:
     raise ValueError("Set your HUGGINGFACEHUB_API_TOKEN environment variable!")
@@ -26,7 +26,7 @@ if not HUGGINGFACE_API_TOKEN:
 llm = HuggingFaceEndpoint(
     endpoint_url=HF_ENDPOINT_URL,
     huggingfacehub_api_token=HUGGINGFACE_API_TOKEN,
-    model_kwargs={"max_length": 512},
+    model_kwargs={"max_length": 256, "temperature": 0.3},
 )
 
 # Set the path to your PDF resume relative to this script

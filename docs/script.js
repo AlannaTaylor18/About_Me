@@ -55,8 +55,7 @@ async function sendMessage() {
       const response = await fetch("https://alanna-chatbot.onrender.com/chat", {
   method: "POST",
   headers: {
-    "Content-Type": "application/json",
-    "Authorization": "HRKU-AAAJB02PkglwW9bmx4OzJtHBstGFt_TVup8s9DpVnCsg_____waHx_synQFI"
+    "Content-Type": "application/json"
   },
   body: JSON.stringify({ message: message }),
 });
