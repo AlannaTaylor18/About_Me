@@ -60,12 +60,15 @@ try:
         embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
         print("✅ Embeddings initialized.")
 
-        # === Load Resume and Build Vectorstore ===
-        # IMPORTANT: Verify this path on Render!
-        resume_path = os.path.join("static", "RESUME_Taylor Alanna 2025_Tech.pdf")
+  # === Load Resume and Build Vectorstore ===
+        resume_path = os.path.join(os.path.dirname(__file__), "static", "RESUME_Taylor Alanna 2025_Tech.pdf")
+
+        # Optional debug
         abs_path = os.path.abspath(resume_path)
         print("📄 Resume absolute path:", abs_path)
+        print("📄 Resume exists:", os.path.exists(abs_path))
 
+        
         documents = []
         if os.path.exists(resume_path):
             try:
