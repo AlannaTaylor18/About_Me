@@ -1,5 +1,9 @@
 import os
 from flask import Flask, request, jsonify
+from flask_cors import cross_origin
+
+app = Flask (__name__)
+CORS(app, origins=["https://alannataylor18.github.io"])
 
 # Use langchain_huggingface to avoid deprecation warnings
 from langchain.chains import RetrievalQA
