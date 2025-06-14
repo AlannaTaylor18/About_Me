@@ -26,8 +26,8 @@ if not HUGGINGFACE_API_TOKEN:
 llm = HuggingFaceEndpoint(
     endpoint_url=HF_ENDPOINT_URL,
     huggingfacehub_api_token=HUGGINGFACE_API_TOKEN,
-    max_length=256,
     temperature=0.3,
+    model_kwargs={"max_length": 256},
 )
 
 # Set the path to your PDF resume relative to this script
@@ -50,7 +50,12 @@ except Exception as e:
 embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
 persist_directory = "./chroma_db"
 
-vectorstore = Chroma.from_documents(documents, embeddings, persist_directory=persist_directory)
+if os.path.exists(persist_directory):
+    print("🔁 Loading existing Chroma vectorstore...")
+    vectorstore = Chroma(persist_directory=persist_directory, embedding_function=embeddings)
+else:
+    print("📌 Creating new Chroma vectorstore from documents...")
+    vectorstore = Chroma.from_documents(documents, embeddings, persist_directory=persist_directory)
 
 retriever = vectorstore.as_retriever()
 
