@@ -20,7 +20,7 @@ HUGGINGFACE_API_TOKEN = os.getenv("HUGGINGFACEHUB_API_TOKEN")
 HF_ENDPOINT_URL = "https://api-inference.huggingface.co/models/google/flan-t5-small"
 
 if not HUGGINGFACE_API_TOKEN:
-    raise ValueError("Set your HUGGINGFACEHUB_API_TOKEN environment variable!")
+    raise ValueError("❌ Set your HUGGINGFACEHUB_API_TOKEN environment variable!")
 
 # Initialize HuggingFace LLM endpoint
 llm = HuggingFaceEndpoint(
@@ -30,38 +30,47 @@ llm = HuggingFaceEndpoint(
     model_kwargs={"max_length": 256},
 )
 
-# Set the path to your PDF resume relative to this script
-resume_path = "./static/RESUME_Taylor Alanna 2025_Tech.pdf"
+# Set the path to your PDF resume
+resume_path = os.path.join("static", "RESUME_Taylor Alanna 2025_Tech.pdf")
+abs_path = os.path.abspath(resume_path)
+print("📄 Resume absolute path:", abs_path)
+print("📄 Resume exists:", os.path.exists(resume_path))
 
-# Debug: print absolute path and check existence
-print("Resume absolute path:", os.path.abspath(resume_path))
-print("Resume exists:", os.path.exists(resume_path))
-
-# Load documents from PDF
-try:
-    loader = PyPDFLoader(resume_path)
-    documents = loader.load()
-    print(f"Loaded {len(documents)} documents from resume")
-except Exception as e:
-    print("Error loading PDF:", e)
-    documents = []
-
-# Setup embeddings and vector store
+# Setup embeddings and vectorstore
 embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
 persist_directory = "./chroma_db"
+vectorstore = None
 
-if os.path.exists(persist_directory):
-    print("🔁 Loading existing Chroma vectorstore...")
-    vectorstore = Chroma(persist_directory=persist_directory, embedding_function=embeddings)
+# Load resume if available
+documents = []
+if os.path.exists(resume_path):
+    try:
+        loader = PyPDFLoader(resume_path)
+        documents = loader.load()
+        print(f"✅ Loaded {len(documents)} documents from resume")
+
+        if documents:
+            print("📌 Creating Chroma vectorstore from resume...")
+            vectorstore = Chroma.from_documents(documents, embeddings, persist_directory=persist_directory)
+        else:
+            print("⚠️ Resume loaded but no content extracted.")
+
+    except Exception as e:
+        print("❌ Error loading or parsing resume PDF:", e)
 else:
-    print("📌 Creating new Chroma vectorstore from documents...")
-    vectorstore = Chroma.from_documents(documents, embeddings, persist_directory=persist_directory)
+    print("⚠️ Resume file not found at:", abs_path)
 
+# Stop app if no vectorstore could be built
+if not vectorstore:
+    raise RuntimeError("❌ Failed to create vectorstore. Make sure your resume is accessible and non-empty.")
+
+# Create retriever
 retriever = vectorstore.as_retriever()
 
 # Setup RetrievalQA chain
 qa = RetrievalQA.from_chain_type(llm=llm, retriever=retriever)
 
+# Chat endpoint
 @app.route('/chat', methods=['POST'])
 def chat():
     user_message = request.json.get('message', '').strip()
@@ -80,14 +89,16 @@ def chat():
 
         return jsonify({'response': response})
     except Exception:
-        print("❌ Error occurred:")
+        print("❌ Error occurred during query processing:")
         traceback.print_exc()
         return jsonify({"response": "Error processing your request."})
 
+# Home route
 @app.route("/", methods=["GET"])
 def home():
     return "Resume Chatbot is running!"
 
+# Start the server
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port)
