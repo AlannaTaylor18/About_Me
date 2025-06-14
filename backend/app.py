@@ -26,7 +26,8 @@ if not HUGGINGFACE_API_TOKEN:
 llm = HuggingFaceEndpoint(
     endpoint_url=HF_ENDPOINT_URL,
     huggingfacehub_api_token=HUGGINGFACE_API_TOKEN,
-    model_kwargs={"max_length": 256, "temperature": 0.3},
+    max_length=256,
+    temperature=0.3,
 )
 
 # Set the path to your PDF resume relative to this script
