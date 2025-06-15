@@ -1,7 +1,3 @@
-
-python
-Copy
-Edit
 from flask import Flask, request, jsonify
 from transformers import pipeline
 import pdfplumber
@@ -49,3 +45,6 @@ def index():
       <input type="submit" value="Ask">
     </form>
     '''
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000, debug=True)
