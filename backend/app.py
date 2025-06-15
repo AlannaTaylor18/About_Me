@@ -2,9 +2,13 @@ from flask import Flask, request, jsonify
 import pdfplumber
 import os
 from flask_cors import CORS
+from transformers import pipeline
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "*"}})  # ✅ Allow all origins
+CORS(app, resources={r"/*": {"origins": "*"}})  # Allow all origins
+
+# Load the QA pipeline once, on startup (not per request)
+qa_pipeline = pipeline("question-answering", model="deepset/tinyroberta-squad2")
 
 def extract_text_from_pdf(pdf_path, max_pages=2):
     text = ""
@@ -17,47 +21,42 @@ def extract_text_from_pdf(pdf_path, max_pages=2):
                 text += page_text + "\n"
     return text
 
-@app.route("/", methods=["GET", "POST"])
-def index():
-    if request.method == "POST":
-        file = request.files.get("pdf")
-        question = request.form.get("question")
-        if not file or not question:
-            return jsonify({"error": "Please upload a PDF and ask a question."}), 400
-
-        pdf_path = "temp.pdf"
-        file.save(pdf_path)
-
-        try:
-            context = extract_text_from_pdf(pdf_path)
-            if not context.strip():
-                return jsonify({"error": "Could not extract text from PDF."}), 400
-
-            # Truncate to first 500 words (about 700 tokens)
-            context = " ".join(context.split()[:500])
-
-            # Lazy load the model
-            from transformers import pipeline
-            qa_pipeline = pipeline("question-answering", model="deepset/tinyroberta-squad2")
-
-            result = qa_pipeline(question=question, context=context)
-            return jsonify({"answer": result.get("answer", "No answer found.")})
-        except Exception as e:
-            return jsonify({"error": f"An error occurred: {str(e)}"}), 500
-        finally:
-            if os.path.exists(pdf_path):
-                os.remove(pdf_path)
-
+@app.route("/", methods=["GET"])
+def home():
     return '''
     <h2>Upload PDF and Ask a Question</h2>
-    <form method="post" enctype="multipart/form-data">
+    <form method="post" enctype="multipart/form-data" action="/chat">
       PDF file: <input type="file" name="pdf" accept="application/pdf"><br><br>
       Question: <input type="text" name="question" style="width:300px"><br><br>
       <input type="submit" value="Ask">
     </form>
     '''
 
-import os
+@app.route("/chat", methods=["POST"])
+def chat():
+    file = request.files.get("pdf")
+    question = request.form.get("question")
+    if not file or not question:
+        return jsonify({"error": "Please upload a PDF and ask a question."}), 400
+
+    pdf_path = "temp.pdf"
+    file.save(pdf_path)
+
+    try:
+        context = extract_text_from_pdf(pdf_path)
+        if not context.strip():
+            return jsonify({"error": "Could not extract text from PDF."}), 400
+
+        # Truncate to first 500 words (about 700 tokens)
+        context = " ".join(context.split()[:500])
+
+        result = qa_pipeline(question=question, context=context)
+        return jsonify({"answer": result.get("answer", "No answer found.")})
+    except Exception as e:
+        return jsonify({"error": f"An error occurred: {str(e)}"}), 500
+    finally:
+        if os.path.exists(pdf_path):
+            os.remove(pdf_path)
 
 if __name__ == "__main__":
     port = int(os.getenv("PORT", 5000))  # Use PORT if set, else fallback to 5000
