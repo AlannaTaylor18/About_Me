@@ -4,10 +4,12 @@ import os
 
 app = Flask(__name__)
 
-def extract_text_from_pdf(pdf_path):
+def extract_text_from_pdf(pdf_path, max_pages=2):
     text = ""
     with pdfplumber.open(pdf_path) as pdf:
-        for page in pdf.pages:
+        for i, page in enumerate(pdf.pages):
+            if i >= max_pages:
+                break
             page_text = page.extract_text()
             if page_text:
                 text += page_text + "\n"
@@ -29,12 +31,17 @@ def index():
             if not context.strip():
                 return jsonify({"error": "Could not extract text from PDF."}), 400
 
-            # Lazy load the pipeline (only when needed)
+            # Truncate to first 500 words (about 700 tokens)
+            context = " ".join(context.split()[:500])
+
+            # Lazy load the model
             from transformers import pipeline
             qa_pipeline = pipeline("question-answering", model="deepset/tinyroberta-squad2")
 
             result = qa_pipeline(question=question, context=context)
-            return jsonify({"answer": result["answer"]})
+            return jsonify({"answer": result.get("answer", "No answer found.")})
+        except Exception as e:
+            return jsonify({"error": f"An error occurred: {str(e)}"}), 500
         finally:
             if os.path.exists(pdf_path):
                 os.remove(pdf_path)
@@ -48,3 +55,5 @@ def index():
     </form>
     '''
 
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000)
