@@ -5,9 +5,9 @@ from flask_cors import CORS
 from transformers import pipeline
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "*"}})
+CORS(app, resources={r"/*": {"origins": "*"}})  # Allow all origins
 
-# Load the model once on startup
+# Load the QA pipeline once, on startup (not per request)
 qa_pipeline = pipeline("question-answering", model="deepset/tinyroberta-squad2")
 
 def extract_text_from_pdf(pdf_path, max_pages=2):
@@ -32,30 +32,6 @@ def home():
     </form>
     '''
 
-@app.route("/chat", methods=["POST"])
-def chat():
-    file = request.files.get("pdf")
-    question = request.form.get("question")
-    if not file or not question:
-        return jsonify({"error": "Please upload a PDF and ask a question."}), 400
-
-    pdf_path = "temp.pdf"
-    file.save(pdf_path)
-
-    try:
-        context = extract_text_from_pdf(pdf_path)
-        if not context.strip():
-            return jsonify({"error": "Could not extract text from PDF."}), 400
-
-        context = " ".join(context.split()[:500])
-        result = qa_pipeline(question=question, context=context)
-        return jsonify({"answer": result.get("answer", "No answer found.")})
-    except Exception as e:
-        return jsonify({"error": f"An error occurred: {str(e)}"}), 500
-    finally:
-        if os.path.exists(pdf_path):
-            os.remove(pdf_path)
-
 @app.route("/chat-json", methods=["POST"])
 def chat_json():
     try:
@@ -64,7 +40,7 @@ def chat_json():
         if not question:
             return jsonify({"reply": "Please enter a question."}), 400
 
-        # Replace this with relevant resume text
+        # Use static resume-like context instead of PDF
         context = (
             "Alanna Taylor is a tech-savvy professional skilled in Python, "
             "web development, and machine learning. She has experience with "
@@ -74,6 +50,7 @@ def chat_json():
         context = " ".join(context.split()[:500])
         result = qa_pipeline(question=question, context=context)
         return jsonify({"reply": result.get("answer", "No answer found.")})
+
     except Exception as e:
         return jsonify({"reply": f"An error occurred: {str(e)}"}), 500
 
