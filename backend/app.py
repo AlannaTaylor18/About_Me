@@ -1,10 +1,8 @@
 from flask import Flask, request, jsonify
-from transformers import pipeline
 import pdfplumber
 import os
 
 app = Flask(__name__)
-qa_pipeline = pipeline("question-answering", model="distilbert-base-uncased-distilled-squad")
 
 def extract_text_from_pdf(pdf_path):
     text = ""
@@ -31,6 +29,10 @@ def index():
             if not context.strip():
                 return jsonify({"error": "Could not extract text from PDF."}), 400
 
+            # Lazy load the pipeline (only when needed)
+            from transformers import pipeline
+            qa_pipeline = pipeline("question-answering", model="deepset/tinyroberta-squad2")
+
             result = qa_pipeline(question=question, context=context)
             return jsonify({"answer": result["answer"]})
         finally:
@@ -46,5 +48,3 @@ def index():
     </form>
     '''
 
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
