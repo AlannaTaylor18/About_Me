@@ -5,9 +5,9 @@ from flask_cors import CORS
 from transformers import pipeline
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "*"}})  # Allow all origins
+CORS(app, resources={r"/*": {"origins": "*"}})
 
-# Load the QA pipeline once, on startup (not per request)
+# Load the model once on startup
 qa_pipeline = pipeline("question-answering", model="deepset/tinyroberta-squad2")
 
 def extract_text_from_pdf(pdf_path, max_pages=2):
@@ -47,18 +47,36 @@ def chat():
         if not context.strip():
             return jsonify({"error": "Could not extract text from PDF."}), 400
 
-        # Truncate to first 500 words (about 700 tokens)
         context = " ".join(context.split()[:500])
-
         result = qa_pipeline(question=question, context=context)
-        return jsonify({"reply": result.get("answer", "No answer found.")})
-
+        return jsonify({"answer": result.get("answer", "No answer found.")})
     except Exception as e:
         return jsonify({"error": f"An error occurred: {str(e)}"}), 500
     finally:
         if os.path.exists(pdf_path):
             os.remove(pdf_path)
 
+@app.route("/chat-json", methods=["POST"])
+def chat_json():
+    try:
+        data = request.get_json()
+        question = data.get("message")
+        if not question:
+            return jsonify({"reply": "Please enter a question."}), 400
+
+        # Replace this with relevant resume text
+        context = (
+            "Alanna Taylor is a tech-savvy professional skilled in Python, "
+            "web development, and machine learning. She has experience with "
+            "Flask, IBM Watson APIs, and GitHub Pages."
+        )
+
+        context = " ".join(context.split()[:500])
+        result = qa_pipeline(question=question, context=context)
+        return jsonify({"reply": result.get("answer", "No answer found.")})
+    except Exception as e:
+        return jsonify({"reply": f"An error occurred: {str(e)}"}), 500
+
 if __name__ == "__main__":
-    port = int(os.getenv("PORT", 5000))  # Use PORT if set, else fallback to 5000
+    port = int(os.getenv("PORT", 5000))
     app.run(host="0.0.0.0", port=port)

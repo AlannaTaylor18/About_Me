@@ -51,14 +51,14 @@ async function sendMessage() {
     chatMessages.scrollTop = chatMessages.scrollHeight;
 
     try {
-      // Backend URL
-      const response = await fetch("https://alanna-chatbot.onrender.com/chat", {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json"
-  },
-  body: JSON.stringify({ message: message }),
-});
+      // ✅ Use the JSON route now
+      const response = await fetch("https://alanna-chatbot.onrender.com/chat-json", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ message: message })
+      });
 
       if (!response.ok) {
         throw new Error("Network response was not ok");
@@ -86,7 +86,6 @@ async function sendMessage() {
 
 // === INIT EVENT LISTENERS ===
 document.addEventListener("DOMContentLoaded", () => {
-  // Recommendation input Enter key
   const newRecommendation = document.getElementById("new_recommendation");
   if (newRecommendation) {
     newRecommendation.addEventListener("keydown", (event) => {
@@ -97,7 +96,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Chatbot: Handle Send button and Enter key
   const sendButton = document.getElementById("chat-send");
   const inputField = document.getElementById("chat-input");
 
