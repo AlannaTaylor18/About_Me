@@ -1,8 +1,10 @@
 from flask import Flask, request, jsonify
 import pdfplumber
 import os
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app, resources={r"/*": {"origins": "*"}})  # ✅ Allow all origins
 
 def extract_text_from_pdf(pdf_path, max_pages=2):
     text = ""
