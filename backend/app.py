@@ -51,7 +51,8 @@ def chat():
         context = " ".join(context.split()[:500])
 
         result = qa_pipeline(question=question, context=context)
-        return jsonify({"answer": result.get("answer", "No answer found.")})
+        return jsonify({"reply": result.get("answer", "No answer found.")})
+
     except Exception as e:
         return jsonify({"error": f"An error occurred: {str(e)}"}), 500
     finally:
