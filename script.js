@@ -1,42 +1,113 @@
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const form = document.getElementById("chat-form");
-    const input = document.getElementById("user-input");
-    const chatBox = document.getElementById("chat-box");
+// === RECOMMENDATION SECTION ===
+function addRecommendation() {
+  const recommendation = document.getElementById("new_recommendation");
 
-    form.addEventListener("submit", async function (e) {
-      e.preventDefault();
-      const userMessage = input.value.trim();
-      if (!userMessage) return;
+  if (recommendation.value && recommendation.value.trim() !== "") {
+    console.log("New recommendation added");
+    showPopup(true);
 
-      // Show user's message
-      appendMessage("You", userMessage);
-      input.value = "";
+    const element = document.createElement("div");
+    element.classList.add("recommendation");
 
-      // Call backend
-      try {
-        const response = await fetch("https://alanna-chatbot.onrender.com/chat", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({ message: userMessage })
-        });
+    const openQuote = document.createElement("span");
+    openQuote.textContent = "“";
+    element.appendChild(openQuote);
 
-        const data = await response.json();
-        appendMessage("Bot", data.reply || "No response.");
-      } catch (error) {
-        console.error("Error:", error);
-        appendMessage("Bot", "Sorry, something went wrong.");
+    const textNode = document.createTextNode(recommendation.value);
+    element.appendChild(textNode);
+
+    const closeQuote = document.createElement("span");
+    closeQuote.textContent = "”";
+    element.appendChild(closeQuote);
+
+    document.getElementById("all_recommendations").appendChild(element);
+    recommendation.value = "";
+  }
+}
+
+function showPopup(show) {
+  const popup = document.getElementById("popup");
+  popup.style.visibility = show ? "visible" : "hidden";
+  if (show) {
+    setTimeout(() => (popup.style.visibility = "hidden"), 2000);
+  }
+}
+
+// === CHATBOT SECTION ===
+async function sendMessage() {
+  const input = document.getElementById("chat-input");
+  const message = input.value.trim();
+
+  if (message !== "") {
+    const chatMessages = document.getElementById("chat-messages");
+
+    // Add user message
+    const userMsg = document.createElement("div");
+    userMsg.className = "user-message";
+    userMsg.textContent = message;
+    chatMessages.appendChild(userMsg);
+
+    input.value = "";
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+
+    try {
+      // Backend URL
+      const response = await fetch("https://alanna-chatbot.onrender.com/chat", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ message: message }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const data = await response.json();
+
+      // Add bot response
+      const botMsg = document.createElement("div");
+      botMsg.className = "bot-message";
+      botMsg.textContent = data.reply || "Sorry, I didn't get that.";
+      chatMessages.appendChild(botMsg);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+
+    } catch (error) {
+      console.error("Error calling backend:", error);
+      const botMsg = document.createElement("div");
+      botMsg.className = "bot-message";
+      botMsg.textContent = "Error contacting the server. Please try again later.";
+      chatMessages.appendChild(botMsg);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+  }
+}
+
+// === INIT EVENT LISTENERS ===
+document.addEventListener("DOMContentLoaded", () => {
+  // Recommendation input Enter key
+  const newRecommendation = document.getElementById("new_recommendation");
+  if (newRecommendation) {
+    newRecommendation.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" && !event.shiftKey) {
+        event.preventDefault();
+        addRecommendation();
       }
     });
+  }
 
-    function appendMessage(sender, text) {
-      const message = document.createElement("div");
-      message.classList.add("message");
-      message.innerHTML = `<strong>${sender}:</strong> ${text}`;
-      chatBox.appendChild(message);
-      chatBox.scrollTop = chatBox.scrollHeight;
-    }
-  });
-</script>
+  // Chatbot: Handle Send button and Enter key
+  const sendButton = document.getElementById("chat-send");
+  const inputField = document.getElementById("chat-input");
+
+  if (sendButton && inputField) {
+    sendButton.addEventListener("click", sendMessage);
+    inputField.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        sendMessage();
+      }
+    });
+  }
+});
